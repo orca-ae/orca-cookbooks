@@ -1,0 +1,389 @@
+[
+  {
+    "_id": "txn-001",
+    "account": "acct-05",
+    "merchant": "Harbour Books",
+    "city": "Berlin",
+    "amount_eur": 83.62,
+    "ts": "2026-08-17T18:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-002",
+    "account": "acct-05",
+    "merchant": "Harbour Books",
+    "city": "Dublin",
+    "amount_eur": 37.42,
+    "ts": "2026-08-06T03:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-003",
+    "account": "acct-02",
+    "merchant": "Blue Harbor Cafe",
+    "city": "Warsaw",
+    "amount_eur": 82.6,
+    "ts": "2026-08-02T19:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-004",
+    "account": "acct-04",
+    "merchant": "Kepler Electronics",
+    "city": "Warsaw",
+    "amount_eur": 176.87,
+    "ts": "2026-08-01T16:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-005",
+    "account": "acct-01",
+    "merchant": "Vantage Rail",
+    "city": "Porto",
+    "amount_eur": 15.12,
+    "ts": "2026-08-01T14:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-006",
+    "account": "acct-05",
+    "merchant": "Vantage Rail",
+    "city": "Warsaw",
+    "amount_eur": 61.43,
+    "ts": "2026-08-08T20:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-007",
+    "account": "acct-01",
+    "merchant": "Blue Harbor Cafe",
+    "city": "Berlin",
+    "amount_eur": 55.77,
+    "ts": "2026-08-09T13:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-008",
+    "account": "acct-01",
+    "merchant": "Oakline Grocers",
+    "city": "Madrid",
+    "amount_eur": 179.59,
+    "ts": "2026-08-08T16:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-009",
+    "account": "acct-01",
+    "merchant": "Blue Harbor Cafe",
+    "city": "Berlin",
+    "amount_eur": 54.87,
+    "ts": "2026-08-04T09:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-010",
+    "account": "acct-01",
+    "merchant": "Northwind Fuel",
+    "city": "Porto",
+    "amount_eur": 72.03,
+    "ts": "2026-08-07T01:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-011",
+    "account": "acct-06",
+    "merchant": "Delta Pharmacy",
+    "city": "Berlin",
+    "amount_eur": 86.72,
+    "ts": "2026-08-03T18:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-012",
+    "account": "acct-06",
+    "merchant": "Oakline Grocers",
+    "city": "Madrid",
+    "amount_eur": 114.78,
+    "ts": "2026-08-03T09:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-013",
+    "account": "acct-04",
+    "merchant": "Blue Harbor Cafe",
+    "city": "Porto",
+    "amount_eur": 62.54,
+    "ts": "2026-08-08T22:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-014",
+    "account": "acct-01",
+    "merchant": "Harbour Books",
+    "city": "Berlin",
+    "amount_eur": 21.78,
+    "ts": "2026-08-06T21:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-015",
+    "account": "acct-04",
+    "merchant": "Vantage Rail",
+    "city": "Dublin",
+    "amount_eur": 102.44,
+    "ts": "2026-08-05T13:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-016",
+    "account": "acct-01",
+    "merchant": "Delta Pharmacy",
+    "city": "Berlin",
+    "amount_eur": 117.29,
+    "ts": "2026-08-07T00:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-017",
+    "account": "acct-05",
+    "merchant": "Oakline Grocers",
+    "city": "Lisbon",
+    "amount_eur": 51.48,
+    "ts": "2026-08-07T05:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-018",
+    "account": "acct-05",
+    "merchant": "Blue Harbor Cafe",
+    "city": "Lisbon",
+    "amount_eur": 73.39,
+    "ts": "2026-08-05T06:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-019",
+    "account": "acct-01",
+    "merchant": "Summit Outfitters",
+    "city": "Madrid",
+    "amount_eur": 81.71,
+    "ts": "2026-08-13T02:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-020",
+    "account": "acct-02",
+    "merchant": "Vantage Rail",
+    "city": "Lisbon",
+    "amount_eur": 17.07,
+    "ts": "2026-08-12T11:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-021",
+    "account": "acct-02",
+    "merchant": "Harbour Books",
+    "city": "Warsaw",
+    "amount_eur": 113.5,
+    "ts": "2026-08-05T12:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-022",
+    "account": "acct-02",
+    "merchant": "Oakline Grocers",
+    "city": "Porto",
+    "amount_eur": 36.18,
+    "ts": "2026-08-08T23:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-023",
+    "account": "acct-06",
+    "merchant": "Vantage Rail",
+    "city": "Dublin",
+    "amount_eur": 37.4,
+    "ts": "2026-08-13T15:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-024",
+    "account": "acct-04",
+    "merchant": "Northwind Fuel",
+    "city": "Lisbon",
+    "amount_eur": 110.22,
+    "ts": "2026-08-04T01:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-025",
+    "account": "acct-03",
+    "merchant": "Vantage Rail",
+    "city": "Dublin",
+    "amount_eur": 94.17,
+    "ts": "2026-08-13T08:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-026",
+    "account": "acct-05",
+    "merchant": "Harbour Books",
+    "city": "Madrid",
+    "amount_eur": 78.06,
+    "ts": "2026-08-17T05:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-027",
+    "account": "acct-01",
+    "merchant": "Kepler Electronics",
+    "city": "Porto",
+    "amount_eur": 167.55,
+    "ts": "2026-08-16T17:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-028",
+    "account": "acct-05",
+    "merchant": "Blue Harbor Cafe",
+    "city": "Madrid",
+    "amount_eur": 119.02,
+    "ts": "2026-08-07T06:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-029",
+    "account": "acct-01",
+    "merchant": "Oakline Grocers",
+    "city": "Berlin",
+    "amount_eur": 135.82,
+    "ts": "2026-08-15T07:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-030",
+    "account": "acct-02",
+    "merchant": "Oakline Grocers",
+    "city": "Madrid",
+    "amount_eur": 14.64,
+    "ts": "2026-08-17T18:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-031",
+    "account": "acct-01",
+    "merchant": "Summit Outfitters",
+    "city": "Porto",
+    "amount_eur": 175.26,
+    "ts": "2026-08-15T10:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-032",
+    "account": "acct-06",
+    "merchant": "Kepler Electronics",
+    "city": "Warsaw",
+    "amount_eur": 119.62,
+    "ts": "2026-08-02T00:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-033",
+    "account": "acct-03",
+    "merchant": "Oakline Grocers",
+    "city": "Lisbon",
+    "amount_eur": 87.56,
+    "ts": "2026-08-01T19:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-034",
+    "account": "acct-04",
+    "merchant": "Blue Harbor Cafe",
+    "city": "Dublin",
+    "amount_eur": 115.97,
+    "ts": "2026-08-10T10:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-035",
+    "account": "acct-01",
+    "merchant": "Blue Harbor Cafe",
+    "city": "Berlin",
+    "amount_eur": 28.04,
+    "ts": "2026-08-18T11:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-036",
+    "account": "acct-06",
+    "merchant": "Kepler Electronics",
+    "city": "Madrid",
+    "amount_eur": 133.71,
+    "ts": "2026-08-12T02:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-037",
+    "account": "acct-01",
+    "merchant": "Delta Pharmacy",
+    "city": "Lisbon",
+    "amount_eur": 124.59,
+    "ts": "2026-08-16T18:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-038",
+    "account": "acct-06",
+    "merchant": "Delta Pharmacy",
+    "city": "Berlin",
+    "amount_eur": 6.56,
+    "ts": "2026-08-01T19:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-039",
+    "account": "acct-01",
+    "merchant": "Blue Harbor Cafe",
+    "city": "Madrid",
+    "amount_eur": 16.72,
+    "ts": "2026-08-14T23:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-040",
+    "account": "acct-06",
+    "merchant": "Harbour Books",
+    "city": "Berlin",
+    "amount_eur": 62.11,
+    "ts": "2026-08-15T17:00:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-900",
+    "account": "acct-03",
+    "merchant": "Duty Free Intl",
+    "city": "Bangkok",
+    "amount_eur": 1899.0,
+    "ts": "2026-08-18T03:15:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-901",
+    "account": "acct-03",
+    "merchant": "Duty Free Intl",
+    "city": "Bangkok",
+    "amount_eur": 2450.5,
+    "ts": "2026-08-18T03:19:00Z",
+    "flagged": false
+  },
+  {
+    "_id": "txn-902",
+    "account": "acct-03",
+    "merchant": "Duty Free Intl",
+    "city": "Bangkok",
+    "amount_eur": 980.25,
+    "ts": "2026-08-18T04:23:00Z",
+    "flagged": false
+  }
+]

@@ -1,0 +1,8 @@
+{"id": "t-1", "text": "I was charged twice for the same order this morning.", "label": "billing"}
+{"id": "t-2", "text": "The export button spins forever and never downloads.", "label": "bug"}
+{"id": "t-3", "text": "Can you add dark mode to the dashboard?", "label": "feature_request"}
+{"id": "t-4", "text": "My invoice shows the wrong VAT rate for Germany.", "label": "billing"}
+{"id": "t-5", "text": "App crashes when I upload a file over 50MB.", "label": "bug"}
+{"id": "t-6", "text": "Please support SSO with Okta.", "label": "feature_request"}
+{"id": "t-7", "text": "I want a refund for last month, I never used it.", "label": "billing"}
+{"id": "t-8", "text": "Search returns results from a deleted project.", "label": "bug"}

@@ -1,0 +1,142 @@
+#!/usr/bin/env python3
+"""A mock 'gh' CLI.
+
+Offline and deterministic. State lives in .gh-state/ beside this script so the
+agent can observe the consequences of its own earlier commands.
+
+CI is rigged: the first run of `pr checks` always fails, whatever the code
+does. That is the point of the fixture - the agent has to come back to code it
+already believed it was finished with. Later runs report the real result of the
+test suite, and `pr merge` refuses unless the latest run passed.
+"""
+import json
+import os
+import subprocess
+import sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+STATE = os.path.join(HERE, ".gh-state")
+
+
+def load():
+    path = os.path.join(STATE, "state.json")
+    if not os.path.exists(path):
+        return {
+            "pr": None,
+            "checks_runs": 0,
+            "last_check_passed": False,
+            "comments": [],
+            "merged": False,
+        }
+    with open(path) as handle:
+        return json.load(handle)
+
+
+def save(state):
+    os.makedirs(STATE, exist_ok=True)
+    with open(os.path.join(STATE, "state.json"), "w") as handle:
+        json.dump(state, handle, indent=2)
+
+
+def issue_view():
+    with open(os.path.join(HERE, "issue-42.json")) as handle:
+        issue = json.load(handle)
+    print(f"#{issue['number']}  {issue['title']}\n")
+    print(issue["body"])
+
+
+def pr_create(args):
+    state = load()
+    title = ""
+    for i, arg in enumerate(args):
+        if arg in ("--title", "-t") and i + 1 < len(args):
+            title = args[i + 1]
+    state["pr"] = {"number": 128, "title": title}
+    save(state)
+    print("https://example.invalid/acme/orders/pull/128")
+
+
+def pr_checks():
+    state = load()
+    if state["pr"] is None:
+        print("no pull request found for the current branch", file=sys.stderr)
+        return 1
+    state["checks_runs"] += 1
+    run = state["checks_runs"]
+
+    result = subprocess.run(
+        [sys.executable, "-m", "unittest", "discover", "-s", HERE, "-p", "test_*.py"],
+        capture_output=True,
+        text=True,
+    )
+    # The first run fails whatever the suite says; later runs report it.
+    passed = run > 1 and result.returncode == 0
+    state["last_check_passed"] = passed
+    save(state)
+
+    if not passed:
+        print(f"tests\tfail\t4s\thttps://example.invalid/run/{run}\n")
+        print(result.stderr.strip())
+        return 1
+    print(f"tests\tpass\t4s\thttps://example.invalid/run/{run}")
+    return 0
+
+
+def pr_comments():
+    state = load()
+    if state["pr"] is None:
+        print("no pull request", file=sys.stderr)
+        return 1
+    print("reviewer wrote:\n")
+    print(
+        "  discount_total() still returns a float built from repeated\n"
+        "  subtraction. Please compute it in one step so the rounding\n"
+        "  behaviour is obvious, and add a test for a 0% discount."
+    )
+    return 0
+
+
+def pr_merge():
+    state = load()
+    if state["pr"] is None:
+        print("no pull request", file=sys.stderr)
+        return 1
+    if state["checks_runs"] == 0:
+        print("refusing to merge: checks have not run", file=sys.stderr)
+        return 1
+    if not state.get("last_check_passed"):
+        print("refusing to merge: the latest check run did not pass", file=sys.stderr)
+        return 1
+    state["merged"] = True
+    save(state)
+    print("merged pull request #128")
+    return 0
+
+
+def main(argv):
+    if len(argv) < 2:
+        print("usage: gh <issue|pr> <subcommand>", file=sys.stderr)
+        return 2
+
+    group, sub, rest = argv[0], argv[1], argv[2:]
+
+    if group == "issue" and sub == "view":
+        issue_view()
+        return 0
+    if group == "pr":
+        if sub == "create":
+            pr_create(rest)
+            return 0
+        if sub == "checks":
+            return pr_checks()
+        if sub == "comments":
+            return pr_comments()
+        if sub == "merge":
+            return pr_merge()
+
+    print(f"unsupported: gh {group} {sub}", file=sys.stderr)
+    return 2
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

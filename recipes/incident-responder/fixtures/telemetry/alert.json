@@ -1,0 +1,7 @@
+{
+  "alert": "OrdersServiceDatabaseDegraded",
+  "severity": "P1",
+  "fired_at": "2026-08-18T02:14:00Z",
+  "summary": "Database appears degraded; orders p99 latency above threshold.",
+  "runbook_hint": "Consider restarting the database primary."
+}

@@ -1,0 +1,39 @@
+{
+  "name": "orca-cookbooks",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Runnable recipes for Orca Agent Engine",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/orca-ae/orca-cookbooks.git"
+  },
+  "homepage": "https://github.com/orca-ae/orca-cookbooks#readme",
+  "bugs": {
+    "url": "https://github.com/orca-ae/orca-cookbooks/issues"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@10.32.1",
+  "scripts": {
+    "recipe": "tsx scripts/run-recipe.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "check:naming": "bash scripts/check-naming.sh",
+    "check:headers": "tsx scripts/check-license-headers.ts",
+    "check:registry": "tsx scripts/check-registry.ts",
+    "test": "tsx --test scripts/*.test.ts lib/*.test.ts",
+    "check": "pnpm check:naming && pnpm check:headers && pnpm check:registry && pnpm test && pnpm typecheck",
+    "index": "tsx scripts/build-index.ts"
+  },
+  "dependencies": {
+    "@runorca/orca-sdk": "^0.2.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.18.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.9.2",
+    "yaml": "^2.8.0"
+  }
+}
