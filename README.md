@@ -60,7 +60,7 @@ others assume it makes sense.
 
 | Recipe | What it shows |
 | --- | --- |
-| [Fix failing tests](recipes/fix-failing-tests) | An agent copies mounted fixtures into a writable output workspace, then iterates on four entangled faults until its suite is green, verified from captured output rather than from its summary. |
+| [Fix failing tests](recipes/fix-failing-tests) | An agent copies mounted fixtures into a writable output workspace, then iterates on four entangled faults until its suite is green, verified from the final bash tool result against the original read-only tests. |
 
 ### Tools and Permissions
 
