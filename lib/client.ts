@@ -12,14 +12,15 @@ export interface CookbookClient {
 /**
  * Build the client every recipe uses.
  *
- * `baseURL` is the host root; the SDK prefixes `/v1` on each call. `apiKey` is
- * sent as a bearer credential.
+ * `baseURL` is the host root; the SDK prefixes `/v1` on each call. Workspace
+ * API keys use `x-api-key`, not the SDK's default bearer authentication.
  */
 export function createClient(): CookbookClient {
   const config = loadConfig();
 
   const orca = new Orca({
-    apiKey: config.apiKey,
+    apiKey: null,
+    defaultHeaders: { 'x-api-key': config.apiKey },
     baseURL: config.baseURL,
     // Recipes drive agent sessions, which think for a while before the first
     // byte. The SDK default is already generous; this makes it explicit so a
