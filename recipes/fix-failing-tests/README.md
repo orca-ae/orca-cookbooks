@@ -13,8 +13,8 @@ every other recipe assumes this one makes sense.
   writable output workspace
 - Giving an agent the built-in toolset so it can run and edit code in a sandbox
 - Streaming a turn and knowing when it is actually finished
-- Capturing an artifact the agent produced, and checking that instead of
-  trusting its summary
+- Verifying the final test command through its correlated bash tool result,
+  rather than trusting the agent's summary or an agent-written report
 
 ## Why the bugs are arranged this way
 
@@ -29,18 +29,31 @@ to re-run after each change and let the failures direct it.
 
 ## Verifying the result
 
-The agent is asked to write the final test output to
-`/mnt/session/outputs/result.txt`. Anything written under that path is captured
-as a session output file, so the recipe downloads it and checks for a passing
-run. An agent reporting success is not evidence — the runner's own output is.
+The agent must finish with the exact verification command supplied by the
+recipe. It runs the original, read-only `test_calc.py` against the repaired
+`calc.py` under `/mnt/session/outputs/workdir`, ignoring any edited test copy.
+Python runs in isolated mode, with the standard-library test runner loaded
+before the working directory is added to its import path.
+
+The recipe captures `agent.tool_use` and `agent.tool_result` events and matches
+the result to that final command by `tool_use_id`. Success requires a non-error
+result containing all eight passing tests and the bash tool's exit code 0.
+Missing execution evidence, skipped tests, a failed shell, or any later tool
+call makes verification fail. `result.txt` and assistant messages are not
+accepted as evidence: an agent can write a convincing report without running
+anything. This is an execution check, not a security boundary against malicious
+Python that deliberately tampers with the test runner.
+
 File resources are currently read-only even when `access: read_write` is
-requested, so the recipe deliberately edits copies under
-`/mnt/session/outputs/workdir`.
+requested, so the recipe edits only copies in the writable output workspace.
 
 ## Prerequisites
 
 - A reachable Agent Engine deployment, and `.env` filled in from `.env.example`
-- `python3` in the environment image. The tests use only the standard library,
+- A sandbox that allows bash execution, with `python3` in the environment image.
+  The `in-memory` runtime used by the tested local stack disables bash and cannot
+  complete this recipe; it must fail verification rather than simulate a run.
+  The tests use only the standard library,
   so nothing needs installing beyond the interpreter itself.
 
 ## Run it
@@ -49,7 +62,7 @@ requested, so the recipe deliberately edits copies under
 pnpm recipe fix-failing-tests
 ```
 
-Expected output ends with the captured `unittest` run and `OK`.
+Expected output includes the verified `unittest` run, `OK`, and `[exit_code] 0`.
 
 ## Files
 

@@ -10,11 +10,12 @@
  * mounted files, a sandbox to run code in, and a stream to watch.
  */
 import { toFile } from '@runorca/orca-sdk';
+import type { SessionEvent } from '@runorca/orca-sdk/resources/sessions/events';
 import type { SessionResourceRequest } from '@runorca/orca-sdk/resources/sessions/resources';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-import { ask, bootstrap, createClient, trackSession, waitForIdle, withCleanup } from '../../lib/index.js';
+import { ask, bootstrap, createClient, readMessageText, trackSession, withCleanup } from '../../lib/index.js';
 
 const FIXTURES = join(import.meta.dirname, 'fixtures');
 
@@ -22,12 +23,10 @@ const FIXTURES = join(import.meta.dirname, 'fixtures');
 const SOURCE_DIR = '/mnt/session/uploads';
 const WORKDIR = '/mnt/session/outputs/workdir';
 
-/**
- * Bytes written under this path are captured as session output files, which is
- * how the recipe verifies the result rather than trusting the agent's summary.
- */
-const REPORT_PATH = '/mnt/session/outputs/result.txt';
-const REPORT_NAME = 'result.txt';
+// Run the original, read-only tests against the repaired working copy. Load
+// unittest before adding the workdir so a copied unittest.py cannot shadow it.
+// -I ignores PYTHONPATH and user site packages. This runs in the sandbox only.
+const VERIFY_COMMAND = `cd ${WORKDIR} && python3 -I -c 'import runpy, sys, unittest; sys.path.insert(0, "."); runpy.run_path("${SOURCE_DIR}/test_calc.py", run_name="__main__")'`;
 
 const SYSTEM = `You are fixing a small Python module so its test suite passes.
 
@@ -41,14 +40,19 @@ Method:
 - Some failures are entangled: one function calls another, so a fix can only be
   judged after its dependency is correct. Re-run after each change.
 - Stop when the suite is green.
+- If the shell cannot execute tests, report the limitation. Never invent output.
 
 The shell tool is named mcp__orca__bash.`;
 
 const TASK = `Copy calc.py and test_calc.py from ${SOURCE_DIR} to ${WORKDIR}.
 Run the copied test suite there and make every test pass by editing calc.py.
 
-When the suite is fully green, write the final unittest output to ${REPORT_PATH}
-exactly as the test runner printed it, so the result can be checked independently.`;
+As your final tool call, run this exact verification command without changing it:
+${VERIFY_COMMAND}
+
+It runs the original read-only tests against your repaired calc.py. Do not write
+a result report or make any tool calls after it succeeds. The host checks the
+actual bash tool result, not your summary or a file you write.`;
 
 async function uploadFixture(
   upload: (file: File) => Promise<{ id: string }>,
@@ -109,47 +113,49 @@ export default async function run(): Promise<void> {
     trackSession(cleanup, orca, session.id);
     console.log(`session ${session.id}\n`);
 
-    const result = await ask(orca, session.id, TASK);
+    const result = await ask(orca, session.id, TASK, {
+      capture: ['agent.tool_use', 'agent.tool_result'],
+    });
 
     if (result.stopReason !== 'end_turn') {
       throw new Error(`agent stopped with "${result.stopReason}" instead of finishing`);
     }
 
-    // The stream can report idle before the server has committed the turn, so
-    // wait for the stored status before reading what the turn wrote.
-    await waitForIdle(orca, session.id);
-    await verifyReport(orca, session.id);
+    verifyExecution(result.captured);
   });
 }
 
 /**
- * Check the captured output rather than the agent's own account of it.
- *
- * A summary saying the suite passed is not evidence; the runner's output is.
+ * Only the final tool call may certify the result: subsequent edits or runs
+ * would invalidate it. An agent-written file is not execution evidence.
  */
-async function verifyReport(
-  orca: ReturnType<typeof createClient>['orca'],
-  sessionId: string,
-): Promise<void> {
-  const files = await orca.sessions.files.list(sessionId);
-
-  const report = files.data?.find((file) => file.filename?.endsWith(REPORT_NAME));
-  if (report === undefined) {
-    const seen = files.data?.map((f) => f.filename).join(', ') || 'none';
-    throw new Error(`the agent did not write ${REPORT_NAME}. Session files: ${seen}`);
+function verifyExecution(events: SessionEvent[]): void {
+  const call = events.findLast((event) => event.type === 'agent.tool_use');
+  const input = call?.['input'];
+  if (
+    call?.['name'] !== 'mcp__orca__bash' ||
+    typeof input !== 'object' ||
+    input === null ||
+    !('command' in input) ||
+    input.command !== VERIFY_COMMAND
+  ) {
+    throw new Error('no verified test execution: the final tool call must run the exact verification command');
   }
 
-  const response = await orca.sessions.files.download(sessionId, report.id);
-  const text = await response.text();
+  const result = events.slice(events.indexOf(call) + 1).find(
+    (event) => event.type === 'agent.tool_result' && event['tool_use_id'] === call.id,
+  );
+  const text = result === undefined ? '' : readMessageText(result);
 
-  console.log('--- captured test output ---');
+  // The fixture contains eight tests. Require the runner's complete summary
+  // and the shell tool's exit status; zero tests and skipped tests do not pass.
+  const passed = /(?:^|\n)Ran 8 tests in [0-9.]+s\r?\n\r?\nOK\s*\n\[exit_code\] 0\s*$/.test(text);
+  if (result?.['is_error'] !== false || !passed) {
+    throw new Error(`no verified test execution: expected eight passing tests and exit code 0. Tool result: ${text || '(missing)'}`);
+  }
+
+  console.log('--- verified bash test output ---');
   console.log(text.trim());
-  console.log('----------------------------');
-
-  const passed = /\bOK\b/.test(text) && !/\bFAILED\b/.test(text);
-  if (!passed) {
-    throw new Error('the captured output does not show a passing suite');
-  }
-
-  console.log('\nsuite is green, verified from captured output');
+  console.log('---------------------------------');
+  console.log('\nsuite is green, verified from the bash tool result');
 }

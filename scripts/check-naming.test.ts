@@ -8,7 +8,7 @@
  */
 import assert from 'node:assert/strict';
 import { execFileSync, spawnSync } from 'node:child_process';
-import { copyFileSync, mkdirSync, mkdtempSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
+import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { test } from 'node:test';
@@ -68,6 +68,16 @@ test('.gitignore may name the tool directory it ignores', () => {
   assert.equal(run.status, 0, run.output);
 });
 
+test('the repository gitignore excludes local .envrc credentials from the gate', () => {
+  const run = runGate({
+    '.gitignore': readFileSync(join(import.meta.dirname, '..', '.gitignore'), 'utf8'),
+    '.envrc': 'export ANTHROPIC_API_KEY=private-test-value\n',
+  });
+  assert.equal(run.status, 0, run.output);
+  assert.ok(!run.output.includes('.envrc'));
+  assert.ok(!run.output.includes('private-test-value'));
+});
+
 test('the exemption covers only the vendor-name scan', () => {
   const run = runGate({ 'AGENTS.md': 'Run it on sonnet-4 by default.\n' });
   assert.equal(run.status, 1, run.output);
@@ -83,3 +93,18 @@ test('the pnpm lockfile is not checked', () => {
   const run = runGate({ 'pnpm-lock.yaml': `note: ${VENDOR}\n` });
   assert.equal(run.status, 0, run.output);
 });
+
+for (const [label, content, diagnostic] of [
+  ['vendor', 'ANTHROPIC_API_KEY=private-test-value', 'vendor name found'],
+  ['tool alias', 'agent_toolset_20260401 token=private-test-value', 'dated toolset alias found'],
+  ['skill type', "{ type: 'anthropic', token: 'private-test-value' }", 'non-composing skill reference form found'],
+  ['model', 'model=sonnet-4 token=private-test-value', 'hardcoded model id found'],
+] as const) {
+  test(`${label} violations report paths without exposing source contents`, () => {
+    const run = runGate({ 'credentials.txt': `${content}\n` });
+    assert.equal(run.status, 1, run.output);
+    assert.ok(run.output.includes(diagnostic));
+    assert.match(run.output, /^    credentials\.txt$/m);
+    assert.ok(!run.output.includes('private-test-value'));
+  });
+}

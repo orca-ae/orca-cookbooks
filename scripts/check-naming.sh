@@ -51,7 +51,8 @@ status=0
 # scan <file-list> <pattern> <message> [hint...]
 scan() {
   list="$1"; pattern="$2"; message="$3"; shift 3
-  hits="$(xargs -0 grep -niE "$pattern" < <(tr '\n' '\0' < "$list") 2>/dev/null || true)"
+  # Report paths only: matching source lines may contain credentials.
+  hits="$(xargs -0 grep -liE -- "$pattern" < <(tr '\n' '\0' < "$list") 2>/dev/null || true)"
   if [ -n "$hits" ]; then
     status=1
     echo "check-naming: $message"
