@@ -1,0 +1,5 @@
+{
+  "number": 42,
+  "title": "Bulk discount is applied per line instead of once",
+  "body": "discount_total() in pricing.py applies the discount separately to every line item, so it compounds. A 10% discount on three 100.00 lines returns 243.90 instead of 270.00 - an effective 18.7% off.\n\nExpected: apply the discount once, to the order subtotal.\n\nThere is a test file next to it. It currently passes, which is part of the problem - the only discount test uses a single line, and one line cannot compound."
+}

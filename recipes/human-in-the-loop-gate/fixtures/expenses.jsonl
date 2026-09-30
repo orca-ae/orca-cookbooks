@@ -1,0 +1,5 @@
+{"id": "exp-1", "employee": "staff", "category": "meals", "amount_usd": 42.10, "receipt": true, "note": "team lunch"}
+{"id": "exp-2", "employee": "staff", "category": "travel", "amount_usd": 880.00, "receipt": true, "note": "flight to onsite"}
+{"id": "exp-3", "employee": "staff", "category": "supplies", "amount_usd": 65.00, "receipt": false, "note": "keyboard"}
+{"id": "exp-4", "employee": "contractor", "category": "meals", "amount_usd": 18.75, "receipt": true, "note": "coffee"}
+{"id": "exp-5", "employee": "staff", "category": "entertainment", "amount_usd": 150.00, "receipt": true, "note": "client tickets"}

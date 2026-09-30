@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Ask a question
+    url: https://github.com/orca-ae/orca-cookbooks/discussions/categories/q-a
+    about: Questions about running or adapting a recipe belong in GitHub Discussions.
+  - name: Share a recipe idea or discuss a change
+    url: https://github.com/orca-ae/orca-cookbooks/discussions/categories/ideas
+    about: Open-ended ideas, and changes to discuss before you write code.
+  - name: Report a problem in Orca Agent Engine, the ork CLI or the TypeScript SDK
+    url: https://github.com/orca-ae/orca-agent-engine/issues/new/choose
+    about: The engine repository tracks the engine and its clients.
+  - name: Report a security vulnerability
+    url: https://github.com/orca-ae/orca-cookbooks/security/advisories/new
+    about: Please report security issues privately, not in a public issue. See SECURITY.md.

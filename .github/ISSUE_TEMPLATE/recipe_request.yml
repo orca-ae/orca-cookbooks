@@ -1,0 +1,36 @@
+name: Recipe request
+description: Propose a recipe that shows how to solve a real task with Orca Agent Engine.
+labels: ["recipe request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Ideas that are still taking shape are often easier to explore in
+        [Discussions](https://github.com/orca-ae/orca-cookbooks/discussions/categories/ideas) first.
+  - type: textarea
+    id: task
+    attributes:
+      label: What task should the agent solve?
+      description: Describe the job in the terms a user would, and what a good result looks like.
+    validations:
+      required: true
+  - type: textarea
+    id: shows
+    attributes:
+      label: What would the recipe show?
+      description: >-
+        The engine capability or pattern a reader learns, and why no existing recipe already
+        covers it.
+    validations:
+      required: true
+  - type: textarea
+    id: fixtures
+    attributes:
+      label: Fixtures and verification
+      description: >-
+        The fictional data or files the agent would work on, and how the recipe would check the
+        result without trusting the agent's summary.
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What alternatives have you considered?

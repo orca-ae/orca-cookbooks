@@ -1,0 +1,74 @@
+name: Bug report
+description: A recipe or shared helper doesn't work as its README describes.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug. Please don't report security vulnerabilities here.
+        Follow [SECURITY.md](https://github.com/orca-ae/orca-cookbooks/blob/main/SECURITY.md) instead.
+
+        Problems in Orca Agent Engine itself, the `ork` CLI or the TypeScript SDK belong in the
+        [engine repository](https://github.com/orca-ae/orca-agent-engine/issues).
+  - type: input
+    id: recipe
+    attributes:
+      label: Recipe
+      description: The recipe directory name, or "lib" / "scripts" for the shared code.
+      placeholder: fix-failing-tests
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Describe the problem, and include any error message.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: How can we reproduce it?
+      description: The command you ran and anything you changed in the recipe or its fixtures.
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      description: >-
+        The commit of this repository you ran, the @runorca/orca-sdk version from pnpm-lock.yaml,
+        and the Orca Agent Engine release or image tag.
+      placeholder: "commit abc1234, @runorca/orca-sdk 0.2.2, engine v0.5.0"
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: >-
+        Where the engine runs (the local stack, Kubernetes, or a hosted workspace), your Node.js
+        version and operating system, and anything else that might matter.
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant output
+      description: >-
+        Paste the recipe's output here. It is formatted as code automatically. Remove API keys,
+        tokens, hostnames and other secrets first.
+      render: shell
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you submit
+      options:
+        - label: I searched the existing issues and didn't find this problem.
+          required: true
+        - label: This isn't a security vulnerability.
+          required: true

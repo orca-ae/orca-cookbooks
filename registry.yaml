@@ -1,0 +1,163 @@
+# yaml-language-server: $schema=./.github/registry_schema.json
+# Copyright The Orca Authors
+# SPDX-License-Identifier: Apache-2.0
+#
+# One entry per recipe. `pnpm index` regenerates the README table from this
+# file, and `pnpm check:registry` checks it: required fields and categories,
+# that every path exists and carries a README, and that every author is
+# defined in authors.yaml. The schema named above gives editors completion.
+
+- title: Fix failing tests
+  description: >-
+    An agent copies mounted fixtures into a writable output workspace, then
+    iterates on four entangled faults until its suite is green, verified from
+    captured output rather than from its summary.
+  path: recipes/fix-failing-tests
+  categories: [Getting Started, Files and Resources]
+  authors: [sijie]
+  date: 2026-09-02
+  difficulty: beginner
+  tags: [sessions, streaming, file-mounts, output-capture]
+
+- title: Explore an unfamiliar codebase
+  description: >-
+    Documentation that is confidently wrong, and an agent that has to ground
+    itself in the source. Adds a resource to a session already running.
+  path: recipes/explore-unfamiliar-codebase
+  categories: [Files and Resources]
+  authors: [sijie]
+  date: 2026-09-02
+  difficulty: beginner
+  tags: [file-mounts, session-resources, grounding]
+
+- title: Gate an agent behind a human decision
+  description: >-
+    Custom tools as a round trip. The agent recommends; the host process holds
+    the ledger and refuses an over-limit approval at the boundary.
+  path: recipes/human-in-the-loop-gate
+  categories: [Tools and Permissions]
+  authors: [sijie]
+  date: 2026-09-02
+  difficulty: intermediate
+  tags: [custom-tools, requires-action, permissions]
+
+- title: Take an issue to a merged pull request
+  description: >-
+    Three turns on one session - fix, CI failure, review comment - against a
+    mock CLI rigged to fail the first check run.
+  path: recipes/issue-to-pr
+  categories: [Tools and Permissions]
+  authors: [sijie]
+  date: 2026-09-02
+  difficulty: intermediate
+  tags: [multi-turn, steering, cursors]
+
+- title: Version a prompt, catch a regression, roll back
+  description: >-
+    A v2 that reads like an improvement and scores worse. Measures both against
+    labelled data, then pins new sessions to the version that won.
+  path: recipes/prompt-versioning-and-rollback
+  categories: [Operations]
+  authors: [sijie]
+  date: 2026-09-02
+  difficulty: intermediate
+  tags: [versioning, evaluation, rollback]
+
+- title: Remember preferences between sessions
+  description: >-
+    Two sessions, one memory store. The second never heard the first
+    conversation and has to recover what matters from what was written down.
+  path: recipes/remember-user-preferences
+  categories: [Memory]
+  authors: [sijie]
+  date: 2026-09-02
+  difficulty: intermediate
+  tags: [memory-stores, session-resources]
+
+- title: Watch subagents work, live
+  description: >-
+    A coordinator delegates to three specialists, and a follower attaches to
+    each thread as it appears so the work is visible while it happens.
+  path: recipes/watch-subagents-live
+  categories: [Multiagent]
+  authors: [sijie]
+  date: 2026-09-02
+  difficulty: intermediate
+  tags: [multiagent, threads, streaming]
+
+- title: Coordinate a team whose members have different tools
+  description: >-
+    Three specialists with three tool surfaces, including one with no tools at
+    all - so the coordinator cannot shortcut its own team.
+  path: recipes/coordinate-specialist-team
+  categories: [Multiagent]
+  authors: [sijie]
+  date: 2026-09-02
+  difficulty: advanced
+  tags: [multiagent, tool-scoping]
+
+- title: Plan big, execute small
+  description: >-
+    A coordinator with no read tool reviews six documents by handing each to a
+    worker, spending its own context on the comparison instead.
+  path: recipes/plan-big-execute-small
+  categories: [Multiagent]
+  authors: [sijie]
+  date: 2026-09-02
+  difficulty: advanced
+  tags: [multiagent, fan-out, context]
+
+- title: Turn a CSV into a report you can open
+  description: >-
+    A sandbox built with pandas and plotly, a year of sales data, and one
+    collapse buried in it. The generated HTML is downloaded and saved.
+  path: recipes/data-analyst
+  categories: [Files and Resources]
+  authors: [sijie]
+  date: 2026-09-02
+  difficulty: intermediate
+  tags: [environments, packages, output-capture]
+
+- title: Triage an incident with a skill, and gate the fix
+  description: >-
+    Runbooks as an uploaded skill, telemetry whose alert name is misleading,
+    and a remediation tool that refuses the one thing the runbook forbids.
+  path: recipes/incident-responder
+  categories: [Skills]
+  authors: [sijie]
+  date: 2026-09-02
+  difficulty: advanced
+  tags: [skills, custom-tools, permissions]
+
+- title: Wire an agent to an MCP server
+  description: >-
+    The three pieces that must line up - server, toolset reference, and a vault
+    credential bound by URL - plus answering always_ask confirmations.
+  path: recipes/operate-in-production
+  categories: [MCP]
+  authors: [sijie]
+  date: 2026-09-02
+  difficulty: advanced
+  tags: [mcp, vaults, permissions]
+
+- title: Give an agent a database without giving it the database
+  description: >-
+    Custom tools bridge to a store the sandbox cannot reach, and the query tool
+    validates a model-composed filter before executing it.
+  path: recipes/mongodb-atlas
+  categories: [Applications]
+  authors: [sijie]
+  date: 2026-09-02
+  difficulty: advanced
+  tags: [custom-tools, validation, integrations]
+
+- title: A chat bot whose backend is the session
+  description: >-
+    Thread id in session metadata as the only record of the mapping, recovered
+    by search after a restart. Two interleaved threads, no crosstalk.
+  path: recipes/slack-data-bot
+  categories: [Applications]
+  authors: [sijie]
+  date: 2026-09-02
+  difficulty: intermediate
+  tags: [metadata, routing, multi-turn]
